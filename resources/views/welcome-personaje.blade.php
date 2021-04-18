@@ -77,17 +77,11 @@
         function arrayurls(data){
             let arrayurl = [];
             data.forEach(item => arrayurl.push(item));
-
-
             console.log(arrayurl);
-            console.log(arrayurl.toString());
             return arrayurl;
-            //(item => item.forEach(item => arrayurl.push(`["${item.type}":"${item.url}"]`))
-            //
+
         }
 
-
-        console.log("despues")
 
         let urlStart = `/datacharacter`;
         axios({
@@ -95,15 +89,16 @@
             url: urlStart,
             data: {
                 idMarvel: data.id,
-                json: data.serializeArray(),
+                json: data,
                 platform: "Marvel",
                 charName: data.name,
                 charDescription: data.description,
                 charImage: data.thumbnail.path + '.' + data.thumbnail.extension,
                 searchQuery: document.getElementById("busqueda").value,
-                //urlLinks: arrayurls(data.urls),
-
-
+                urlLinks: arrayurls(data.urls),
+                comics: arrayurls(data.comics.items),
+                series: arrayurls(data.series.items),
+                creators: data.creators,
             }
 
         });
@@ -124,20 +119,28 @@
     }
 
   function composeStringUrlsBack(data){
+
         return `<button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-3 border border-gray-400 rounded shadow">
 <a class="" href="${data.url}">${data.type}</a>
 </button>`;
     }
 
-    function composeStringDataBack(data){
+    function composeStringDataBack(dataResult){
+        console.log("---------------------------------------");
+        console.log("data");
+        console.log(JSON.parse(dataResult.json));
+        console.log("---------------------------------------");
+        let data = JSON.parse(dataResult.json);
 
-        if (data.charDescription != null){
+        if (data.description != null){
             return `<div class="min-h-screen min-w-screen bg-gray-200 dark:bg-gray-900 flex items-center justify-center">
             <div>
                 <div class="flex flex-col max-w-md bg-white px-8 py-6 rounded-xl space-y-5 items-center">
-                    <h3 class="font-serif font-bold text-gray-900 text-xl">${data.charName}</h3>
-                    <img class="w-full rounded-md" src="${data.charImage}" alt="motivation" />
-                    <p class="text-center leading-relaxed">${data.charDescription}}</p>
+                    <h3 class="font-serif font-bold text-gray-900 text-xl">${data.name}</h3>
+                    <img class="w-full rounded-md" src="${data.thumbnail.path}.${data.thumbnail.extension}" alt="motivation" />
+                    <!-- <p class="text-center leading-relaxed">${data.id}</p> -->
+                    <p class="text-center leading-relaxed">${data.description}</p>
+                    ${data.urls.map(composeStringUrls).join("")}
                     <span class="text-center">MARVEL</span>
                     <button class="px-24 py-1 bg-red-600 rounded-md text-white text-sm focus:border-transparent"><a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a></button>
                 </div>
@@ -148,16 +151,16 @@
             return `<div class="min-h-screen min-w-screen bg-gray-200 dark:bg-gray-900 flex items-center justify-center">
             <div>
                 <div class="flex flex-col max-w-md bg-white px-8 py-6 rounded-xl space-y-5 items-center">
-                    <h3 class="font-serif font-bold text-gray-900 text-xl">${data.charName}</h3>
-                    <img class="w-full rounded-md" src="${data.charImage}" alt="motivation" />
-
+                    <h3 class="font-serif font-bold text-gray-900 text-xl">${data.name}</h3>
+                    <img class="w-full rounded-md" src="${data.thumbnail.path}.${data.thumbnail.extension}" alt="motivation" />
+                    <!-- <p class="text-center leading-relaxed">${data.id}</p> -->
+                    ${data.urls.map(composeStringUrls).join("")}
                     <span class="text-center">MARVEL</span>
                     <button class="px-24 py-1 bg-red-600 rounded-md text-white text-sm focus:border-transparent"><a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a></button>
                 </div>
             </div>
         </div>`
         }
-
     }
 
 
@@ -173,14 +176,14 @@
         //document.getElementById("busqueda").addEventListener('click',limpiar);
 
         const resultado = await  axios.get(urlQuery);
-
-        console.log(resultado)
+        console.log("resultado urlQuery");
+        console.log(resultado);
+        console.log("hasta aqui");
 
         if(resultado.data.length > 0){
 
             const requestQuery = resultado;
-
-            console.log(requestQuery);
+            console.log("restQuery")
             document.getElementById("visor").innerHTML = resultado.data.map(composeStringDataBack).join(" ");
 
 
@@ -206,32 +209,5 @@
 
 
     }
-
-    function change_message() {
-        axios.get('/cliente/message')
-            .then(function (response) {
-                // handle success
-                console.log(response);
-            })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            });
-    }
-
-
-    /*
-,
-urls: [{
-type: "detail",
-url: "http://marvel.com/comics/characters/1009351/hulk?utm_campaign=apiRef&amp;utm_source=7701abbe011f97d07fd57cbc7599a3b6"
-}, {
-type: "wiki",
-url: "http://marvel.com/universe/Hulk_(Bruce_Banner)?utm_campaign=apiRef&amp;utm_source=7701abbe011f97d07fd57cbc7599a3b6"
-}, {
-type: "comiclink",
-url: "http://marvel.com/comics/characters/1009351/hulk?utm_campaign=apiRef&amp;utm_source=7701abbe011f97d07fd57cbc7599a3b6"
-}]
-*/
 
 </script>

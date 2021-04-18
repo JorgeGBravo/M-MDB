@@ -14,6 +14,49 @@ require('alpinejs');
     console.log(ts2); */
 
 
+
+function arrayurls(data){
+    let arrayurl = [];
+    data.forEach(item => arrayurl.push(item));
+    console.log(arrayurl);
+    return arrayurl;
+
+}
+
+
+function mapAxiosPostData(data){
+    let urlStart = `/datacharacter`;
+    axios({
+        method: 'post',
+        url: urlStart,
+        data: {
+            idMarvel: data.id,
+            json: data,
+            platform: "Marvel",
+            charName: data.name,
+            charDescription: data.description,
+            charImage: data.thumbnail.path + '.' + data.thumbnail.extension,
+            searchQuery: document.getElementById("busqueda").value,
+            urlLinks: arrayurls(data.urls),
+            comics: arrayurls(data.comics.items),
+            series: arrayurls(data.series.items),
+            creators: data.creators,
+        }
+
+    });
+}
+
+
+function limpiar() {
+    document.getElementById("prueba").value = "";
+}
+
+    function composeStringUrls(data){
+    return `<button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-3 border border-gray-400 rounded shadow">
+<a class="" href="${data.url}">${data.type}</a>
+</button>`;
+}
+
     function composeStringStart(data) {
     return `<div id="character">
 <h2>${data.name}</h2>

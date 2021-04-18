@@ -15,7 +15,7 @@ class CreateCharactersTable extends Migration
     {
         Schema::create('characters', function (Blueprint $table) {
             $table->id('idChar');
-            $table->json('json')->nullable();
+            $table->longText('json')->nullable();
             $table->bigInteger('idMarvel')->unique()->nullable();
             $table->bigInteger('idTmdb')->unique()->nullable();
             $table->string('platform');
@@ -24,10 +24,10 @@ class CreateCharactersTable extends Migration
             $table->string('charImage')->nullable();
             $table->string('charImageBackground')->nullable();
             $table->longText('charDescription')->nullable();
-            $table->string('urlLinks')->nullable();
-            $table->string('creators')->nullable();
-            $table->string('comics')->nullable();
-            $table->string('series')->nullable();
+            $table->longText('urlLinks')->nullable();
+            $table->longText('creators')->nullable();
+            $table->longText('comics')->nullable();
+            $table->longText('series')->nullable();
             $table->string('searchQuery')->nullable();
             $table->timestamps();
         });
