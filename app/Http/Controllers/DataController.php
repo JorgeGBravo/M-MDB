@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\character;
+use App\Models\data;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,21 +18,29 @@ class DataController extends Controller
 
         Log::info($request->input('json'));
 
-        $character = new character();
-        $character->json =  json_encode($request-> input('json'));
-        $character->idMarvel =  $request-> input('idMarvel');
-        $character->platform =  $request-> input('platform');
-        $character->charName =  $request-> input('charName');
-        $character->charImage =  $request-> input('charImage');
-        $character->searchQuery =  $request-> input('searchQuery');
-        $character->urlLinks =  json_encode($request-> input('urlLinks'));
-        $character->creators =  json_encode($request-> input('creators'));
-        $character->comics =  json_encode($request-> input('comics'));
-        $character->series =  json_encode($request-> input('series'));
-        $character->charDescription =  $request-> input('charDescription');
-        $character->save();
+        $data = new data();
+        $data->json =  json_encode($request-> input('json'));
+        $data->idMarvelChar =  $request-> input('idMarvelChar');
+        $data->idMarvelComic =  $request-> input('idMarvelComic');
+        $data->idTmdb =  $request-> input('idTmdb');
+        $data->platform =  $request-> input('platform');
+        $data->name =  $request-> input('name');
+        $data->originalTitle =  $request-> input('originalTitle');
+        $data->image =  $request-> input('image');
+        $data->imageBackground =  $request-> input('imageBackground');
+        $data->description =  $request-> input('description');
+        $data->urlLinks =  json_encode($request-> input('urlLinks'));
+        $data->creators =  json_encode($request-> input('creators'));
+        $data->charComics =  json_encode($request-> input('charComics'));
+        $data->dateComics =  json_encode($request-> input('dateComics'));
+        $data->diamondCode =  $request-> input('diamondCode');
+        $data->vote_average =  $request-> input('vote_average');
+        $data->vote_count =  $request-> input('vote_count');
+        $data->release_date =  $request-> input('release_date');
+        $data->charSeries =  json_encode($request-> input('charSeries'));
+        $data->searchQuery =  $request-> input('searchQuery');
+        $data->save();
     }
-
 
     function checkCharacter($query){
 

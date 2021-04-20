@@ -15,17 +15,26 @@ class CreateDataTable extends Migration
     {
         Schema::create('data', function (Blueprint $table) {
             $table->id('idData');
-            $table->bigInteger('idTdmb')->unique()->nullable();
-            $table->bigInteger('idMarvel')->unique()->nullable();
-            $table->string('dataCover')->unique()->nullable();
-            $table->string('dataPicture')->unique()->nullable();
-            $table->integer('dataYear')->nullable();
-            $table->string('item1')->nullable();
-            $table->string('item2')->nullable();
-            $table->string('item3')->nullable();
-            $table->string('item4')->nullable();
-            $table->string('item5')->nullable();
-            $table->string('item6')->nullable();
+            $table->longText('json')->nullable();
+            $table->bigInteger('idMarvelChar')->unique()->nullable();
+            $table->bigInteger('idMarvelComic')->unique()->nullable();
+            $table->bigInteger('idTmdb')->unique()->nullable();
+            $table->string('platform');
+            $table->string('name');
+            $table->string('originalTitle')->nullable();
+            $table->string('image')->nullable();
+            $table->string('imageBackground')->nullable();
+            $table->longText('description')->nullable();
+            $table->longText('urlLinks')->nullable();
+            $table->longText('creators')->nullable();
+            $table->longText('charComics')->nullable();
+            $table->longText('dateComics')->nullable();
+            $table->string('diamondCode')->nullable();
+            $table->float('vote_average')->nullable();
+            $table->bigInteger('vote_count')->nullable();
+            $table->longText('release_date')->nullable();
+            $table->longText('charSeries')->nullable();
+            $table->string('searchQuery')->nullable();
             $table->timestamps();
         });
     }

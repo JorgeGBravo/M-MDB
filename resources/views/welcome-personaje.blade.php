@@ -56,6 +56,8 @@
     const publicK = "7701abbe011f97d07fd57cbc7599a3b6";
     const privateK = "265976491cc8e9aa0bc0b62b38819bea7b45fb89";
     const ts = Date.now();
+    const ts2 = Date.now() + 1;
+    const APIKey = "5011e9d9f4f0d149651d30d4df35c971"
 
     function composeStringUrls(data){
        return `<button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-3 border border-gray-400 rounded shadow">
@@ -77,28 +79,25 @@
         function arrayurls(data){
             let arrayurl = [];
             data.forEach(item => arrayurl.push(item));
-            console.log(arrayurl);
+            //console.log(arrayurl);
             return arrayurl;
 
         }
-
-
         let urlStart = `/datacharacter`;
         axios({
             method: 'post',
             url: urlStart,
             data: {
-                idMarvel: data.id,
+                idMarvelChar: data.id,
                 json: data,
                 platform: "Marvel",
-                charName: data.name,
-                charDescription: data.description,
-                charImage: data.thumbnail.path + '.' + data.thumbnail.extension,
-                searchQuery: document.getElementById("busqueda").value,
+                name: data.name,
+                description: data.description,
+                image: data.thumbnail.path + '.' + data.thumbnail.extension,
                 urlLinks: arrayurls(data.urls),
-                comics: arrayurls(data.comics.items),
-                series: arrayurls(data.series.items),
-                creators: data.creators,
+                charComics: arrayurls(data.comics.items),
+                charSeries: arrayurls(data.series.items),
+                searchQuery: document.getElementById("busqueda").value,
             }
 
         });
@@ -118,6 +117,100 @@
         </div>`
     }
 
+    function composeStringComic(data) {
+        console.log("data.....");
+        console.log(data.characters.items);
+        console.log("...............");
+
+
+
+        function arrayurls(data){
+            let arrayurl = [];
+            data.forEach(item => arrayurl.push(item));
+            //console.log(arrayurl);
+            return arrayurl;
+
+        }
+        let urlStart = `/datacharacter`;
+        axios({
+            method: 'post',
+            url: urlStart,
+            data: {
+                idMarvelComic: data.id,
+                json: data,
+                platform: "Marvel",
+                name: data.title,
+                description: data.description,
+                image: data.thumbnail.path + '.' + data.thumbnail.extension,
+                diamondCode: data.diamondCode,
+                creators: data.creators,
+                //urlLinks: arrayurls(data.urls),
+                charComics: arrayurls(data.characters.items),
+                charSeries: arrayurls(data.series.items),
+                dateComics: arrayurls(data.dates),
+                searchQuery: document.getElementById("busqueda").value,
+            }
+
+        });
+
+        return `<div class="min-h-screen min-w-screen bg-gray-200 dark:bg-gray-900 flex items-center justify-center">
+            <div>
+                <div class="flex flex-col max-w-md bg-white px-8 py-6 rounded-xl space-y-5 items-center">
+                    <h3 class="font-serif font-bold text-gray-900 text-xl">${data.title}</h3>
+                    <img class="w-full rounded-md" src="${data.thumbnail.path}.${data.thumbnail.extension}" alt="motivation" />
+                    <!-- <p class="text-center leading-relaxed">${data.id}</p> -->
+                    <p class="text-center leading-relaxed">${data.description}</p>
+                    ${data.urls.map(composeStringUrls).join("")}
+                    <span class="text-center">MARVEL</span>
+                    <button class="px-24 py-1 bg-red-600 rounded-md text-white text-sm focus:border-transparent"><a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a></button>
+                </div>
+            </div>
+        </div>`
+    }
+
+
+    function composeTmdb(data) {
+
+        function arrayurls(data){
+            let arrayurl = [];
+            data.forEach(item => arrayurl.push(item));
+            //console.log(arrayurl);
+            return arrayurl;
+
+        }
+        let urlStart = `/datacharacter`;
+        axios({
+            method: 'post',
+            url: urlStart,
+            data: {
+                idTmdb: data.id,
+                json: data,
+                platform: "TMDb",
+                name: data.original_title,
+                description: data.overview,
+                image: data.poster_path,
+                vote_average: data.vote_average,
+                vote_count: data.vote_count,
+                release_date: data.release_date,
+                searchQuery: document.getElementById("busqueda").value,
+            }
+
+        });
+        return `<div class="min-h-screen min-w-screen bg-gray-200 dark:bg-gray-900 flex items-center justify-center">
+            <div>
+                <div class="flex flex-col max-w-md bg-white px-8 py-6 rounded-xl space-y-5 items-center">
+                    <h3 class="font-serif font-bold text-gray-900 text-xl">${data.original_title}</h3>
+                    <img class="w-full rounded-md" src="${"https://image.tmdb.org/t/p/original/" + data.poster_path}" alt="motivation" />
+                    <!-- <p class="text-center leading-relaxed">${data.id}</p> -->
+                    <p class="text-center leading-relaxed">${data.overview}</p>
+                    <span class="text-center">TheMovieDB</span>
+                    <button class="px-24 py-1 bg-red-600 rounded-md text-white text-sm focus:border-transparent"><a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a></button>
+                </div>
+            </div>
+        </div>`
+
+    }
+
   function composeStringUrlsBack(data){
 
         return `<button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-3 border border-gray-400 rounded shadow">
@@ -126,10 +219,7 @@
     }
 
     function composeStringDataBack(dataResult){
-        console.log("---------------------------------------");
-        console.log("data");
-        console.log(JSON.parse(dataResult.json));
-        console.log("---------------------------------------");
+
         let data = JSON.parse(dataResult.json);
 
         if (data.description != null){
@@ -167,9 +257,14 @@
     async function buscar() {
         const busqueda = document.getElementById("busqueda").value;
 
-        const md5Compose = CryptoJS.MD5(ts + privateK + publicK).toString();
+        const md5ComposeA = CryptoJS.MD5(ts + privateK + publicK).toString();
+        const md5ComposeB = CryptoJS.MD5(ts2 + privateK + publicK).toString();
 
-        let urlStart = `https://gateway.marvel.com:443/v1/public/characters?nameStartsWith=${busqueda}&ts=${ts}&apikey=${publicK}&hash=${md5Compose}`;
+        let urlStart = `https://gateway.marvel.com:443/v1/public/characters?nameStartsWith=${busqueda}&ts=${ts}&apikey=${publicK}&hash=${md5ComposeA}`;
+        let urlComic = `https://gateway.marvel.com:443/v1/public/comics?format=comic&formatType=comic&title=${busqueda}&ts=${ts2}&apikey=${publicK}&hash=${md5ComposeB}`;
+        let urlTmdb = `https://api.themoviedb.org/4/search/movie?api_key=5011e9d9f4f0d149651d30d4df35c971&language=es-ES&query=${busqueda}`;
+
+
 
         let urlQuery = `/datacharacter/${busqueda}`;
 
@@ -180,6 +275,7 @@
         console.log(resultado);
         console.log("hasta aqui");
 
+
         if(resultado.data.length > 0){
 
             const requestQuery = resultado;
@@ -187,18 +283,30 @@
             document.getElementById("visor").innerHTML = resultado.data.map(composeStringDataBack).join(" ");
 
 
+
         }
         else {
 
 
             const requestStart = await axios.get(urlStart);
+            console.log("startKey");
+            console.log(requestStart.data.data);
+            console.log("-------------")
+            const requestComic = await axios.get(urlComic);
+            console.log("comics");
+            console.log(requestComic.data.data);
+            console.log("-------------")
+            const respuesta = await axios.get(urlTmdb);
+            console.log("Tmdb");
+            console.log(respuesta.data);
+            console.log("-------------")
 
-            console.log(requestStart.data.data.results);
-            console.log("aqui")
 
             if (requestStart.status === 200) {
 
                 document.getElementById("visor").innerHTML = requestStart.data.data.results.map(composeStringStart).join(" ");
+                document.getElementById("visor").innerHTML += requestComic.data.data.results.map(composeStringComic).join(" ");
+                document.getElementById("visor").innerHTML += respuesta.data.results.map(composeTmdb).join(" ");
 
             } else {
                 document.getElementById("visor").innerHTML = "Hay algún problema";

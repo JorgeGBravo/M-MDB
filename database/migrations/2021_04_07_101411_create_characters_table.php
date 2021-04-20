@@ -29,8 +29,6 @@ class CreateCharactersTable extends Migration
             $table->longText('comics')->nullable();
             $table->longText('series')->nullable();
             $table->string('searchQuery')->nullable();
-            $table->char('check')->nullable();
-            $table->char('checkView')->nullable();
             $table->timestamps();
         });
     }
