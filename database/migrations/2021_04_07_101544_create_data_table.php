@@ -18,7 +18,7 @@ class CreateDataTable extends Migration
             $table->bigInteger('idTdmb')->unique()->nullable();
             $table->bigInteger('idMarvel')->unique()->nullable();
             $table->string('dataCover', 50)->unique()->nullable();
-            $table->string('dataPicture')->unique()->nullable();
+            $table->string('dataPicture', 50)->unique()->nullable();
             $table->integer('dataYear')->nullable();
             $table->string('item1')->nullable();
             $table->string('item2')->nullable();
