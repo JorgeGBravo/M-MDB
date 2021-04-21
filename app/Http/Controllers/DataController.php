@@ -16,7 +16,7 @@ class DataController extends Controller
     function postCharacter(Request $request){
         //var_dump($request); exit;
 
-        Log::info($request->input('json'));
+        Log::info($request->input('urlLinks'));
 
         $data = new data();
         $data->json =  json_encode($request-> input('json'));

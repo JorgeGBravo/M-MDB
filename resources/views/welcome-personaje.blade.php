@@ -65,25 +65,19 @@
 </button>`;
     }
 
-    function urls (results){
-        let arrayItems =[];
-        results.forEach(element => element.urls.forEach(item => arrayItems.push(item)));
-        return arrayItems;
+
+    function arrayurls(data){
+        let arrayurl = [];
+        data.forEach(item => arrayurl.push(item));
+        //console.log(arrayurl);
+        return arrayurl;
     }
 
 
     function composeStringStart(data) {
-
         console.log("Aquí...")
-
-        function arrayurls(data){
-            let arrayurl = [];
-            data.forEach(item => arrayurl.push(item));
-            //console.log(arrayurl);
-            return arrayurl;
-
-        }
         let urlStart = `/datacharacter`;
+
         axios({
             method: 'post',
             url: urlStart,
@@ -122,15 +116,6 @@
         console.log(data.characters.items);
         console.log("...............");
 
-
-
-        function arrayurls(data){
-            let arrayurl = [];
-            data.forEach(item => arrayurl.push(item));
-            //console.log(arrayurl);
-            return arrayurl;
-
-        }
         let urlStart = `/datacharacter`;
         axios({
             method: 'post',
@@ -144,10 +129,9 @@
                 image: data.thumbnail.path + '.' + data.thumbnail.extension,
                 diamondCode: data.diamondCode,
                 creators: data.creators,
-                //urlLinks: arrayurls(data.urls),
                 charComics: arrayurls(data.characters.items),
-                charSeries: arrayurls(data.series.items),
                 dateComics: arrayurls(data.dates),
+                urlLinks: arrayurls(data.urls),
                 searchQuery: document.getElementById("busqueda").value,
             }
 
@@ -171,13 +155,6 @@
 
     function composeTmdb(data) {
 
-        function arrayurls(data){
-            let arrayurl = [];
-            data.forEach(item => arrayurl.push(item));
-            //console.log(arrayurl);
-            return arrayurl;
-
-        }
         let urlStart = `/datacharacter`;
         axios({
             method: 'post',
@@ -189,6 +166,7 @@
                 name: data.original_title,
                 description: data.overview,
                 image: data.poster_path,
+                imageBackground: data.backdrop_path,
                 vote_average: data.vote_average,
                 vote_count: data.vote_count,
                 release_date: data.release_date,

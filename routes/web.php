@@ -24,9 +24,6 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/personaje', function () {
-    return view('welcome-personaje');
-});
 
 Route::get('/datacharacter/{query}', [DataController::class, 'checkCharacter']);
 
