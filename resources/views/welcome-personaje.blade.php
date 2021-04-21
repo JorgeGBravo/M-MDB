@@ -37,7 +37,7 @@
 <div class="flex flex-col  bg-gray-200 dark:bg-gray-900">
     <div class="text-center"><h1 class=" text-red-600 text-4xl font-roboto">The MARVEL and DataBaseMovie</h1></div>
 
-        <div><img class="h-2/6 w-2/6" src=https://i.ibb.co/FzmsMgP/M-Mdb-1.gif" alt="M-Mdb-1" border="0"></div>
+        <div class="flex-col "><img class="justify-center h-2/6 w-2/6" src=https://i.ibb.co/FzmsMgP/M-Mdb-1.gif" alt="M-Mdb-1" border="0" style="margin-left: 540px;"></div>
 
     <div id="buscador" class="text-center mb-10">
         <label for="busqueda"></label><input id="busqueda" onchange="buscar()"  type="text" placeholder="Busca tu personaje...">
@@ -84,7 +84,7 @@
             data: {
                 idMarvelChar: data.id,
                 json: data,
-                platform: "Marvel",
+                platform: "Marvel-Char",
                 name: data.name,
                 description: data.description,
                 image: data.thumbnail.path + '.' + data.thumbnail.extension,
@@ -123,7 +123,7 @@
             data: {
                 idMarvelComic: data.id,
                 json: data,
-                platform: "Marvel",
+                platform: "Marvel-Comics",
                 name: data.title,
                 description: data.description,
                 image: data.thumbnail.path + '.' + data.thumbnail.extension,
@@ -137,19 +137,19 @@
 
         });
 
-        return `<div class="min-h-screen min-w-screen bg-gray-200 dark:bg-gray-900 flex items-center justify-center">
-            <div>
-                <div class="flex flex-col max-w-md bg-white px-8 py-6 rounded-xl space-y-5 items-center">
-                    <h3 class="font-serif font-bold text-gray-900 text-xl">${data.title}</h3>
-                    <img class="w-full rounded-md" src="${data.thumbnail.path}.${data.thumbnail.extension}" alt="motivation" />
-                    <!-- <p class="text-center leading-relaxed">${data.id}</p> -->
-                    <p class="text-center leading-relaxed">${data.description}</p>
-                    ${data.urls.map(composeStringUrls).join("")}
-                    <span class="text-center">MARVEL</span>
-                    <button class="px-24 py-1 bg-red-600 rounded-md text-white text-sm focus:border-transparent"><a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a></button>
+    /* return `<div class="min-h-screen min-w-screen bg-gray-200 dark:bg-gray-900 flex items-center justify-center">
+         <div>
+             <div class="flex flex-col max-w-md bg-white px-8 py-6 rounded-xl space-y-5 items-center">
+                 <h3 class="font-serif font-bold text-gray-900 text-xl">${data.title}</h3>
+                 <img class="w-full rounded-md" src="${data.thumbnail.path}.${data.thumbnail.extension}" alt="motivation" />
+                 <!-- <p class="text-center leading-relaxed">${data.id}</p> -->
+                 <p class="text-center leading-relaxed">${data.description}</p>
+                 ${data.urls.map(composeStringUrls).join("")}
+                 <span class="text-center">MARVEL</span>
+                 <button class="px-24 py-1 bg-red-600 rounded-md text-white text-sm focus:border-transparent"><a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a></button>
                 </div>
             </div>
-        </div>`
+        </div>` */
     }
 
 
@@ -174,18 +174,18 @@
             }
 
         });
-        return `<div class="min-h-screen min-w-screen bg-gray-200 dark:bg-gray-900 flex items-center justify-center">
-            <div>
-                <div class="flex flex-col max-w-md bg-white px-8 py-6 rounded-xl space-y-5 items-center">
-                    <h3 class="font-serif font-bold text-gray-900 text-xl">${data.original_title}</h3>
-                    <img class="w-full rounded-md" src="${"https://image.tmdb.org/t/p/original/" + data.poster_path}" alt="motivation" />
-                    <!-- <p class="text-center leading-relaxed">${data.id}</p> -->
-                    <p class="text-center leading-relaxed">${data.overview}</p>
-                    <span class="text-center">TheMovieDB</span>
-                    <button class="px-24 py-1 bg-red-600 rounded-md text-white text-sm focus:border-transparent"><a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a></button>
+    /* return `<div class="min-h-screen min-w-screen bg-gray-200 dark:bg-gray-900 flex items-center justify-center">
+        <div>
+            <div class="flex flex-col max-w-md bg-white px-8 py-6 rounded-xl space-y-5 items-center">
+                <h3 class="font-serif font-bold text-gray-900 text-xl">${data.original_title}</h3>
+                <img class="w-full rounded-md" src="${"https://image.tmdb.org/t/p/original/" + data.poster_path}" alt="motivation" />
+                <!-- <p class="text-center leading-relaxed">${data.id}</p> -->
+                <p class="text-center leading-relaxed">${data.overview}</p>
+                <span class="text-center">TheMovieDB</span>
+                <button class="px-24 py-1 bg-red-600 rounded-md text-white text-sm focus:border-transparent"><a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a></button>
                 </div>
             </div>
-        </div>`
+        </div>` */
 
     }
 
@@ -197,8 +197,8 @@
     }
 
     function composeStringDataBack(dataResult){
+        let data = JSON.parse(dataResult.json)
 
-        let data = JSON.parse(dataResult.json);
         console.log("-------------------------------------------")
         console.log(data);
         console.log("-------------------------------------------")
@@ -251,19 +251,14 @@
         //document.getElementById("busqueda").addEventListener('click',limpiar);
 
         const resultado = await  axios.get(urlQuery);
+
         console.log("resultado urlQuery");
         console.log(resultado);
         console.log("hasta aqui");
 
-
         if(resultado.data.length > 0){
 
-            const requestQuery = resultado;
-            console.log("restQuery")
             document.getElementById("visor").innerHTML = resultado.data.map(composeStringDataBack).join(" ");
-
-
-
         }
         else {
 

@@ -44,7 +44,7 @@ class DataController extends Controller
 
     function checkCharacter($query){
 
-        $resultados = DB::select('select json from data where searchQuery = "'.$query.'"');
+        $resultados = DB::select('select json from data where searchQuery = "'.$query.'" AND platform = "Marvel-Char"' );
 
         if(count($resultados)>0){
             return $resultados;
