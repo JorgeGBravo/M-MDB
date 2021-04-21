@@ -199,7 +199,9 @@
     function composeStringDataBack(dataResult){
 
         let data = JSON.parse(dataResult.json);
-
+        console.log("-------------------------------------------")
+        console.log(data);
+        console.log("-------------------------------------------")
         if (data.description != null){
             return `<div class="min-h-screen min-w-screen bg-gray-200 dark:bg-gray-900 flex items-center justify-center">
             <div>
