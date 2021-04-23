@@ -28,3 +28,5 @@ require __DIR__.'/auth.php';
 Route::get('/datacharacter/{query}', [DataController::class, 'checkCharacter']);
 
 Route::post('/datacharacter', [DataController::class, 'postCharacter']);
+
+Route::post('/insertQuery', [DataController::class, 'insertSearchQuery']);

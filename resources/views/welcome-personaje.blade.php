@@ -65,7 +65,6 @@
 </button>`;
     }
 
-
     function arrayurls(data){
         let arrayurl = [];
         data.forEach(item => arrayurl.push(item));
@@ -73,9 +72,8 @@
         return arrayurl;
     }
 
-
     function composeStringStart(data) {
-        console.log("Aquí...")
+
         let urlStart = `/datacharacter`;
 
         axios({
@@ -112,9 +110,6 @@
     }
 
     function composeStringComic(data) {
-        console.log("data.....");
-        console.log(data.characters.items);
-        console.log("...............");
 
         let urlStart = `/datacharacter`;
         axios({
@@ -186,7 +181,7 @@
                 </div>
             </div>
         </div>` */
-
+        //document.getElementById("busqueda").addEventListener('click',limpiar);
     }
 
   function composeStringUrlsBack(data){
@@ -199,9 +194,6 @@
     function composeStringDataBack(dataResult){
         let data = JSON.parse(dataResult.json)
 
-        console.log("-------------------------------------------")
-        console.log(data);
-        console.log("-------------------------------------------")
         if (data.description != null){
             return `<div class="min-h-screen min-w-screen bg-gray-200 dark:bg-gray-900 flex items-center justify-center">
             <div>
@@ -244,17 +236,11 @@
         let urlComic = `https://gateway.marvel.com:443/v1/public/comics?format=comic&formatType=comic&title=${busqueda}&ts=${ts2}&apikey=${publicK}&hash=${md5ComposeB}`;
         let urlTmdb = `https://api.themoviedb.org/4/search/movie?api_key=5011e9d9f4f0d149651d30d4df35c971&language=es-ES&query=${busqueda}`;
 
-
-
         let urlQuery = `/datacharacter/${busqueda}`;
 
-        //document.getElementById("busqueda").addEventListener('click',limpiar);
+
 
         const resultado = await  axios.get(urlQuery);
-
-        console.log("resultado urlQuery");
-        console.log(resultado);
-        console.log("hasta aqui");
 
         if(resultado.data.length > 0){
 
@@ -278,10 +264,13 @@
 
 
             if (requestStart.status === 200) {
-
+                let urlQuery = `/insertQuery/${busqueda}`;
+                const resultado = await  axios.get(urlQuery);
                 document.getElementById("visor").innerHTML = requestStart.data.data.results.map(composeStringStart).join(" ");
                 document.getElementById("visor").innerHTML += requestComic.data.data.results.map(composeStringComic).join(" ");
                 document.getElementById("visor").innerHTML += respuesta.data.results.map(composeTmdb).join(" ");
+
+
 
             } else {
                 document.getElementById("visor").innerHTML = "Hay algún problema";
