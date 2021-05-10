@@ -78,11 +78,13 @@
         console.log("Aquí...")
         let urlStart = `/datacharacter`;
 
+
+
         axios({
             method: 'post',
             url: urlStart,
             data: {
-                idMarvelChar: data.id,
+                idPlatform: data.id,
                 json: data,
                 platform: "Marvel-Char",
                 name: data.name,
@@ -117,11 +119,13 @@
         console.log("...............");
 
         let urlStart = `/datacharacter`;
+
+
         axios({
             method: 'post',
             url: urlStart,
             data: {
-                idMarvelComic: data.id,
+                idPlatform: data.id,
                 json: data,
                 platform: "Marvel-Comics",
                 name: data.title,
@@ -156,11 +160,13 @@
     function composeTmdb(data) {
 
         let urlStart = `/datacharacter`;
+
+
         axios({
             method: 'post',
             url: urlStart,
             data: {
-                idTmdb: data.id,
+                idPlatform: data.id,
                 json: data,
                 platform: "TMDb",
                 name: data.original_title,
@@ -235,7 +241,8 @@
 
 
     async function buscar() {
-        const busqueda = document.getElementById("busqueda").value;
+        const busqueda = document.getElementById("busqueda").value.toLowerCase();
+        console.log(busqueda);
 
         const md5ComposeA = CryptoJS.MD5(ts + privateK + publicK).toString();
         const md5ComposeB = CryptoJS.MD5(ts2 + privateK + publicK).toString();
@@ -250,31 +257,34 @@
 
         //document.getElementById("busqueda").addEventListener('click',limpiar);
 
+
         const resultado = await  axios.get(urlQuery);
 
         console.log("resultado urlQuery");
         console.log(resultado);
         console.log("hasta aqui");
+        console.log(resultado.data.length);
 
-        if(resultado.data.length > 0){
-
+        if(resultado.data != 0){
+            console.log("BackData en función")
             document.getElementById("visor").innerHTML = resultado.data.map(composeStringDataBack).join(" ");
         }
         else {
 
 
             const requestStart = await axios.get(urlStart);
-            console.log("startKey");
-            console.log(requestStart.data.data);
-            console.log("-------------")
+            //console.log("startKey");
+            //console.log(requestStart);
+            //console.log("-------------")
             const requestComic = await axios.get(urlComic);
-            console.log("comics");
-            console.log(requestComic.data.data);
-            console.log("-------------")
+            //console.log("comics");
+            //console.log(requestComic.data.data);
+            //console.log("-------------")
             const respuesta = await axios.get(urlTmdb);
             console.log("Tmdb");
             console.log(respuesta.data);
             console.log("-------------")
+
 
 
             if (requestStart.status === 200) {
@@ -286,11 +296,7 @@
             } else {
                 document.getElementById("visor").innerHTML = "Hay algún problema";
             }
-
         }
-
-
-
     }
 
 </script>

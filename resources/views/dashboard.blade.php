@@ -12,7 +12,6 @@
                     <div id="buscador" class="text-center mb-10">
                         <label for="busqueda"></label><input id="busqueda" onchange="buscar()"  type="text" placeholder="Busca tu personaje...">
                     </div>
-
                     <div id="visor" class="flex-col"></div>
                 </div>
             </div>

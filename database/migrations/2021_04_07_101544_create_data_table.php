@@ -16,9 +16,7 @@ class CreateDataTable extends Migration
         Schema::create('data', function (Blueprint $table) {
             $table->id('idData');
             $table->longText('json')->nullable();
-            $table->bigInteger('idMarvelChar')->unique()->nullable();
-            $table->bigInteger('idMarvelComic')->unique()->nullable();
-            $table->bigInteger('idTmdb')->unique()->nullable();
+            $table->bigInteger('idPlatform')->unique()->nullable();
             $table->string('platform');
             $table->string('name');
             $table->string('originalTitle')->nullable();
@@ -34,7 +32,7 @@ class CreateDataTable extends Migration
             $table->bigInteger('vote_count')->nullable();
             $table->longText('release_date')->nullable();
             $table->longText('charSeries')->nullable();
-            $table->string('searchQuery')->nullable();
+            //$table->longText('searchQuery')->nullable();
             $table->timestamps();
         });
     }
